@@ -39,8 +39,6 @@
     color: rgba(210, 210, 210, 0.7);
     display: flex;
     justify-content: center;
-    cursor: pointer;
-    outline: none;
 }
 
 .Card-overlay-btn:hover {
