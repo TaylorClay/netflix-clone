@@ -1,5 +1,4 @@
 .Card-row-title {
-    /*font-size: 1.4em;*/
     font-weight: bold;
     margin: 1em 0 0 0;
     color: #fafafa;
@@ -7,19 +6,13 @@
 
 section {
     --card-height: 330px;
-    /*350px;*/
     --card-width: 220px;
-    /*225px;*/
     --card-scalar: 1.1;
 }
 
 .Card-row {
-    /* Determine height/width based on image sizes from API */
     width: 100%;
-    /*min-width: xxx; TBD*/
     height: var(--card-height);
-    /*min-height: xxx; TBD*/
-
     overflow-x: scroll;
     overflow-y: hidden;
     display: flex;
