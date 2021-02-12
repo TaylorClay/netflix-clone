@@ -45,7 +45,7 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
     })();
 
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [slug, title]);
 
   // Opens YouTube with a query to find the target movie's trailer
   const openTrailer = (movieTitle) => {

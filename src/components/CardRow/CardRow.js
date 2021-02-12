@@ -52,7 +52,7 @@ function CardRow({containerId, title, slug = null, myList, myListAddHandler, myL
         }
       })();
     }
-  }, [slug]);
+  }, [slug, title]);
 
   const isMyList = containerId === 'my-list';
 
@@ -77,7 +77,7 @@ function CardRow({containerId, title, slug = null, myList, myListAddHandler, myL
       )
     }
     return _cards;
-  }, [isMyList, myList.length, mediaItems.length]);
+  }, [isMyList, myList, mediaItems, myListAddHandler, myListRemoveHandler]);
 
   return (
     <section>
