@@ -79,7 +79,7 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
               {movieTitle}
             </h1>
             <p title={overview}>
-              {_trimWordLength(overview, document.body.clientWidth / 20)}
+              {_trimWordLength(overview, document.body.clientWidth / 25)}
             </p>
             <div id="Showcase-button-group">
               <button
