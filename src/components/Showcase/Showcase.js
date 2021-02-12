@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 
+import {API_KEY} from "../../common/Secrets";
 import {_getIsIdInList, _trimWordLength} from "../../common/Utilities";
 
 import './Showcase.css';
@@ -10,7 +11,6 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
 
   // Fetches a list of movies to be used in the Showcase
   useEffect(() => {
-    const API_KEY = '018ed007af059457fbde52398c825e19'; // TODO: Remove
     let timeoutId;
     (async () => {
       try {

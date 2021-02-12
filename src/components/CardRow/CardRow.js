@@ -3,6 +3,7 @@ import {useEffect, useMemo, useState} from 'react';
 import Card from "../Card/Card";
 import IconPlus from "../../icons/IconPlus";
 import IconSubtract from "../../icons/IconSubtract";
+import {API_KEY} from "../../common/Secrets";
 import {_getIsIdInList} from "../../common/Utilities";
 
 import './CardRow.css';
@@ -41,7 +42,6 @@ function CardRow({containerId, title, slug = null, myList, myListAddHandler, myL
     // The only CardRow without a slug should by MyList
     // We won't need to re-fetch data for MyList unless we want to support persisting data between sessions
     if (slug) {
-      const API_KEY = '018ed007af059457fbde52398c825e19'; // TODO: Remove
       (async () => {
         try {
           const res = await fetch(`https://api.themoviedb.org/3/${slug}?api_key=${API_KEY}`);
