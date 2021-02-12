@@ -31,7 +31,7 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
           setShowCaseMovie(movies[randIndex]);
 
 
-          const TIMEOUT = 3_000;
+          const TIMEOUT = 30_000;
           const changeShowcase = () => {
             const randIndex = Math.floor(Math.random() * Math.floor(movies.length))
             setShowCaseMovie(movies[randIndex]);
