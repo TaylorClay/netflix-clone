@@ -31,7 +31,7 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
           setShowCaseMovie(movies[randIndex]);
 
 
-          const TIMEOUT = 30_000;
+          const TIMEOUT = 3_000;
           const changeShowcase = () => {
             const randIndex = Math.floor(Math.random() * Math.floor(movies.length))
             setShowCaseMovie(movies[randIndex]);
@@ -79,7 +79,7 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
               {movieTitle}
             </h1>
             <p title={overview}>
-              {_trimWordLength(overview, document.body.clientWidth / 20)}
+              {_trimWordLength(overview, document.body.clientWidth / 25)}
             </p>
             <div id="Showcase-button-group">
               <button
