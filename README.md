@@ -1,6 +1,48 @@
+### Build Status
 [![Netlify Status](https://api.netlify.com/api/v1/badges/213d0ef8-015a-4b94-b602-0e8cd4eaa23d/deploy-status)](https://app.netlify.com/sites/taylor-clay-netflix-clone/deploys)
 
-# Getting Started with Create React App
+# Overview
+
+Check out the app: https://taylor-clay-netflix-clone.netlify.app/
+
+<img width="645" alt="Application Preview" src="https://user-images.githubusercontent.com/8163665/107831527-d77def80-6d53-11eb-931f-812d9d988a42.png">
+
+# Features
+
+## Showcase
+
+- Rotates randomly through a list of _Upcoming Movies_
+- Provides the title's name and description
+    - The title's name and description are truncated with an ellipsis, if necessary
+        - The name is truncated at the character level
+        - The description is truncated at the word level
+- Provides `button` to add to MyList
+- Provides `button` to open YouTube with query for target movie's trailer
+
+## RowManager
+
+- Supports a MyList concept, which will be the first row rendered (if any titles are in MyList)
+- Dynamically loads new `Rows` based on `IntersectionObserver` logic
+
+### Row
+
+- Dynamically toggles a fade effect on the left/right of the row based on `IntersectionObserver` logic
+
+#### Card
+
+- Displays a poster image of the title this `Card` is meant to represent
+- If the poster image is unavailable or fails to low, a text-based placeholder is rendered instead
+    - The title's name is truncated with an ellipsis, if necessary
+        - Truncation is done at the character count level
+- Supports add to / remove from MyList button 
+  - Button content flexes based on whether the title is already in MyList (add / remove)
+
+## Footer
+
+- "Sticky" footer
+- Links to my social media (LinkedIn, Twitter, GitHub) are provided via `button`s
+
+# Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
