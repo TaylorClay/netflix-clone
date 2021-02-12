@@ -3,6 +3,8 @@
 
 # Overview
 
+<img width="645" alt="Application Preview" src="https://user-images.githubusercontent.com/8163665/107831527-d77def80-6d53-11eb-931f-812d9d988a42.png">
+
 # Features
 
 ## Showcase
