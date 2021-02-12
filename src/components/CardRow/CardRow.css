@@ -1,0 +1,67 @@
+.Card-row-title {
+    font-weight: bold;
+    margin: 1em 0 0 0;
+    color: #fafafa;
+}
+
+section {
+    --card-height: 330px;
+    --card-width: 220px;
+    --card-scalar: 1.1;
+}
+
+.Card-row {
+    width: 100%;
+    height: var(--card-height);
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: flex;
+}
+
+.Card-row-cover {
+    width: 20%;
+    height: var(--card-height);
+    margin-top: calc(-1 * var(--card-height));
+    position: relative;
+    opacity: .5;
+    pointer-events: none;
+    content: '';
+}
+
+.Cover-left {
+    background: linear-gradient(
+            to left,
+            rgba(17, 17, 17, 0) 10%,
+            rgba(17, 17, 17, 0.2) 40%,
+            rgba(17, 17, 17, 0.8) 80%,
+            rgba(17, 17, 17, 1) 100%
+    );
+}
+
+.Cover-right {
+    float: right;
+    background: linear-gradient(
+            to right,
+            rgba(17, 17, 17, 0) 10%,
+            rgba(17, 17, 17, 0.2) 40%,
+            rgba(17, 17, 17, 0.8) 80%,
+            rgba(17, 17, 17, 1) 100%
+    );
+}
+
+.Card-row::-webkit-scrollbar {
+    display: none;
+}
+
+.Card-row > .Card {
+    height: calc(var(--card-height) / var(--card-scalar));
+    flex: 0 0 var(--card-width);
+    margin: 0 calc(var(--card-width) * (var(--card-scalar) - 1) / 4);
+    align-self: center;
+    transition: transform 400ms;
+    position: relative;
+}
+
+.Card-row > .Card:hover {
+    transform: scale(var(--card-scalar));
+}

@@ -1,0 +1,74 @@
+#Showcase-wrapper {
+    height: 50vh;
+    width: 100%;
+    background: #a1a1a1;
+    font-size: 3em;
+    text-align: center;
+}
+
+#Showcase-content-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#Showcase-backdrop-image {
+    object-fit: cover;
+    min-height: 100%;
+}
+
+#Showcase-overlay {
+    height: 50vh;
+    width: 100%;
+    color: white;
+    position: absolute;
+    padding-left: 3rem;
+    text-align: left;
+    display: flex;
+    left: 0;
+    top: 0;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: rgb(17 17 17) 0 -50px 25px -16px inset;
+}
+
+#Showcase-overlay > h1 {
+    margin: 0;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#Showcase-overlay > p {
+    margin: 0;
+    max-width: 50%;
+    font-size: 0.5em;
+}
+
+#Showcase-button-group {
+    display: flex;
+    height: 0.7em;
+    margin-top: 1rem;
+}
+
+.Showcase-button {
+    padding: 0.5em;
+    margin-right: 0.5em;
+    width: 6em;
+    border: 1px solid rgba(15, 15, 15, 0.8);
+    background-color: rgba(17, 17, 17, 0.8);
+    color: rgb(240, 240, 240);
+}
+
+.Showcase-button:hover {
+    border: 1px solid rgb(28, 28, 28);
+    background-color: rgb(75, 75, 75);
+    color: rgb(255, 255, 255);
+}
+
+.Showcase-button:active {
+    border: 1px solid rgb(15, 15, 15);
+    background-color: rgb(50, 50, 50);
+    color: rgb(225, 225, 225);
+}
