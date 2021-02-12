@@ -5,7 +5,7 @@ import {_getIsIdInList, _trimWordLength} from "../../common/Utilities";
 import './Showcase.css';
 
 function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }) {
-  const [showCaseMovie, setShowCaseMovie] = useState(null);
+  const [showCaseMovie, setShowCaseMovie] = useState({});
   const [imageLoaded, setImageLoaded] = useState(true);
 
   // Fetches a list of movies to be used in the Showcase
@@ -62,7 +62,7 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
 
   return (
     <header id="Showcase-wrapper">
-      {showCaseMovie && (
+      {showCaseMovie.id && (
         <div id="Showcase-content-wrapper">
           {imageLoaded && <img
             id="Showcase-backdrop-image"
