@@ -109,6 +109,10 @@
     color: rgb(210, 210, 210);
 }
 
+.Card-overlay-btn-padding {
+    padding: 5px;
+}
+
 .Card-back {
     font-size: 0.8em;
     text-align: center;
