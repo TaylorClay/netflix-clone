@@ -36,3 +36,10 @@ export function _trimWordLength(textToTrim, maxWordCount = 100) {
 export function _getIsIdInList(list, id) {
   return list.findIndex(listItem => listItem.id === id) >= 0;
 }
+
+/**
+ * Indicates whether or not the user is viewing on a mobile device
+ *
+ * @type {boolean}
+ */
+export const IS_MOBILE_DEVICE = (/Mobi|Android/i.test(navigator.userAgent));
