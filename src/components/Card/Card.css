@@ -1,14 +1,70 @@
 .Card {
-    background: #a1a1a1;
-    font-size: 2em;
-    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    height: calc(var(--card-height) / var(--card-scalar));
+    flex: 0 0 var(--card-width);
+    margin: 0 calc(var(--card-width) * (var(--card-scalar) - 1) / 4);
+    align-self: center;
+    transition: transform 400ms;
+    position: relative;
 }
 
-.Card-title-ribbon {
-    margin-top: 25%;
-    color: #111111;
-    max-width: 220px;
+.Card:hover {
+    transform: scale(var(--card-scalar));
+}
+
+.Card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.Flipped,
+.Card-front,
+.Card-back {
+    background: #212121;
+}
+
+.Flipped {
+    transform: rotateY(180deg);
+}
+
+.Card-front,
+.Card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    pointer-events: none;
+}
+
+.Card-title,
+.Card-overview {
+    padding: 15% 5% 0;
+    color: #fafafa;
+    font-size: 2em;
+    text-align: center;
+    width: 220px;
     display: inline-block;
+    animation: fadeIn ease 1.5s;
+}
+
+.Card-title {
+    font-size: 1.75em;
+}
+
+.Card-overview {
+    font-size: 1.25em;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .Card-backdrop-image {
@@ -20,12 +76,13 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: calc(100% + 2px);
-    height: calc(100% + 2px);
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     padding: 0 15px 10px 0;
+    pointer-events: none;
 }
 
 .Card-overlay-btn {
@@ -39,6 +96,7 @@
     color: rgba(210, 210, 210, 0.7);
     display: flex;
     justify-content: center;
+    pointer-events: all;
 }
 
 .Card-overlay-btn:hover {
@@ -49,4 +107,14 @@
 .Card-overlay-btn:active {
     background-color: rgb(17, 17, 17);
     color: rgb(210, 210, 210);
+}
+
+.Card-back {
+    font-size: 0.8em;
+    text-align: center;
+    transform: perspective(200px) rotateY(-180deg);
+}
+
+.Face-hidden {
+    display: none;
 }

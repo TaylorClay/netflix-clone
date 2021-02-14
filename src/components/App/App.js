@@ -12,13 +12,19 @@ function App() {
   const [myList, setMyList] = useState([]);
 
   const addToMyList = (item) => {
-    return () => {
+    return (e) => {
+      // Prevent this handler from bubbling up and breaking the flip card handler
+      e.stopPropagation();
+
       setMyList((prevList) => [...prevList, {key: 'ml-'.concat(item.id), ...item}]);
     }
   }
 
   const removeFromMyList = (item) => {
-    return () => {
+    return (e) => {
+      // Prevent this handler from bubbling up and breaking the flip card handler
+      e.stopPropagation();
+
       const itemIndex = myList.findIndex((currItem) => currItem.id === item.id);
       if (itemIndex >= 0) {
         setMyList((prevList) => {

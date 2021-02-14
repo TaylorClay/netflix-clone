@@ -61,15 +61,19 @@ function CardRow({containerId, title, slug = null, myList, myListAddHandler, myL
     const _cards = [];
     const data = isMyList ? myList : mediaItems;
     for (let i = 0; i < data.length; i++) {
-      const {id, title, poster_path, posterPath} = data[i];
+      const {id, title, name, overview, poster_path, posterPath} = data[i];
 
       const isInMyList = _getIsIdInList(myList, id);
+
+      // The Movie datamodel uses title, and the TV datamodel uses name
+      const titleDisplay = title || name;
 
       _cards.push(
         <Card
           key={id}
           id={id}
-          title={title}
+          title={titleDisplay}
+          overview={overview}
           posterPath={poster_path || posterPath}
           myListBtnContent={isInMyList ? <IconSubtract/> : <IconPlus/>}
           myListHandler={isInMyList ? myListRemoveHandler : myListAddHandler}
