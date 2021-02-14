@@ -61,7 +61,7 @@ function CardRow({containerId, title, slug = null, myList, myListAddHandler, myL
     const _cards = [];
     const data = isMyList ? myList : mediaItems;
     for (let i = 0; i < data.length; i++) {
-      const {id, title, poster_path, posterPath} = data[i];
+      const {id, title, name, overview, poster_path, posterPath} = data[i];
 
       const isInMyList = _getIsIdInList(myList, id);
 
@@ -69,7 +69,8 @@ function CardRow({containerId, title, slug = null, myList, myListAddHandler, myL
         <Card
           key={id}
           id={id}
-          title={title}
+          title={title || name}
+          overview={overview}
           posterPath={poster_path || posterPath}
           myListBtnContent={isInMyList ? <IconSubtract/> : <IconPlus/>}
           myListHandler={isInMyList ? myListRemoveHandler : myListAddHandler}
