@@ -1,5 +1,6 @@
 import {useState} from 'react';
 
+import IconSearch from "../../icons/IconSearch";
 import {_trimTextLength} from "../../common/Utilities";
 
 import './Card.css';
@@ -28,6 +29,16 @@ function Card({
     e.target.lastElementChild.classList.toggle('Face-hidden')
     // Card face container
     e.target.classList.toggle('Flipped')
+  }
+
+  // Opens a Google search with a query to find where to watch the title
+  const openSearch = (title) => {
+    return (e) => {
+      // Prevent this handler from bubbling up and breaking the flip card handler
+      e.stopPropagation();
+
+      window.open(`https://www.google.com/search?q=where+to+watch+${title.toLowerCase().split(' ').join('+')}`, '_blank')
+    }
   }
 
   return (
@@ -75,6 +86,14 @@ function Card({
         <div className="Card-back Face-hidden">
           <div className="Card-overview" title={overview}>
             {_trimTextLength(overview, 300)}
+          </div>
+          <div className="Card-overlay">
+            <button
+              className="Card-overlay-btn Card-overlay-btn-padding"
+              onClick={openSearch(title)}
+            >
+              <IconSearch />
+            </button>
           </div>
         </div>
       </div>
