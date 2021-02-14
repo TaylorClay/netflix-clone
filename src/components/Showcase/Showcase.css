@@ -34,7 +34,7 @@
 
 #Showcase-overlay > h1 {
     margin: 0;
-    font-size: 1em;
+    font-size: 3rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -43,32 +43,64 @@
 #Showcase-overlay > p {
     margin: 0;
     max-width: 75%;
-    font-size: 0.5em;
+    font-size: 1.5rem;
 }
 
 #Showcase-button-group {
     display: flex;
     height: 0.7em;
-    margin-top: 1rem;
+    margin-top: 0.5em;
 }
 
-.Showcase-button {
+.Showcase-button-dt,
+.Showcase-button-mb {
     padding: 0.5em;
     margin-right: 0.5em;
     width: 6em;
-    border: 1px solid rgba(15, 15, 15, 0.8);
-    background-color: rgba(17, 17, 17, 0.8);
     color: rgb(240, 240, 240);
 }
 
-.Showcase-button:hover {
+.Showcase-button-dt {
+    background-color: rgba(17, 17, 17, 0.8);
+    border: 1px solid rgba(15, 15, 15, 0.8);
+}
+
+.Showcase-button-mb {
+    background-color: rgb(17, 17, 17);
+    border: 1px solid rgb(15, 15, 15);
+}
+
+.Showcase-button-dt:hover {
     border: 1px solid rgb(28, 28, 28);
     background-color: rgb(75, 75, 75);
     color: rgb(255, 255, 255);
 }
 
-.Showcase-button:active {
+.Showcase-button-mb:active,
+.Showcase-button-dt:active {
     border: 1px solid rgb(15, 15, 15);
     background-color: rgb(50, 50, 50);
     color: rgb(225, 225, 225);
+}
+
+@media only screen and (max-width: 768px) {
+
+    #Showcase-overlay > h1 {
+        font-size: 2.5rem;
+    }
+
+    #Showcase-overlay > p {
+        font-size: 1.25rem;
+    }
+
+    #Showcase-button-group {
+        height: 1em;
+    }
+
+    .Showcase-button-dt,
+    .Showcase-button-mb {
+        padding: 0.2em;
+        margin-right: 0.5em;
+        font-size: 1.25rem;
+    }
 }

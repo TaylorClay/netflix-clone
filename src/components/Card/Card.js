@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
 import IconSearch from "../../icons/IconSearch";
-import {_trimTextLength} from "../../common/Utilities";
+import {IS_MOBILE_DEVICE, _trimTextLength} from "../../common/Utilities";
 
 import './Card.css';
 
@@ -43,7 +43,7 @@ function Card({
 
   return (
     <li
-      className="Card"
+      className={`Card-${IS_MOBILE_DEVICE ? 'mb' : 'dt'}`}
       onMouseOver={onMouseOverHandler}
       onMouseLeave={onMouseLeaveHandler}
     >
@@ -53,9 +53,9 @@ function Card({
       >
         <div className="Card-front">
           {!imageLoaded && (
-            <div className="Card-title" title={title}>
+            <h3 className="Card-title" title={title}>
               {_trimTextLength(title)}
-            </div>
+            </h3>
           )}
           <img
             className="Card-backdrop-image"
@@ -67,10 +67,10 @@ function Card({
             onLoad={onLoadHandler}
             onError={onErrorHandler}
           />
-          {isHovered && (
+          {(isHovered || IS_MOBILE_DEVICE) && (
             <div className="Card-overlay">
               <button
-                className="Card-overlay-btn"
+                className={`Card-overlay-btn Card-overlay-btn-${IS_MOBILE_DEVICE ? 'mb' : 'dt'}`}
                 onClick={myListHandler({
                   id,
                   title,
@@ -84,12 +84,12 @@ function Card({
           )}
         </div>
         <div className="Card-back Face-hidden">
-          <div className="Card-overview" title={overview}>
-            {_trimTextLength(overview, 300)}
-          </div>
+          <p className="Card-overview" title={overview}>
+            {_trimTextLength(overview, 275)}
+          </p>
           <div className="Card-overlay">
             <button
-              className="Card-overlay-btn Card-overlay-btn-padding"
+              className={`Card-overlay-btn Card-overlay-btn-${IS_MOBILE_DEVICE ? 'mb' : 'dt'} Card-overlay-btn-padding`}
               onClick={openSearch(title)}
             >
               <IconSearch />

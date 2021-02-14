@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 
 import {API_KEY} from "../../common/Secrets";
-import {_getIsIdInList, _trimWordLength} from "../../common/Utilities";
+import {IS_MOBILE_DEVICE, _getIsIdInList, _trimWordLength} from "../../common/Utilities";
 
 import './Showcase.css';
 
@@ -79,16 +79,17 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
               {movieTitle}
             </h1>
             <p title={overview}>
-              {_trimWordLength(overview, document.body.clientWidth / 25)}
+              {_trimWordLength(overview, document.body.clientWidth / 15)}
             </p>
             <div id="Showcase-button-group">
               <button
-                className="Showcase-button"
-                onClick={openTrailer(movieTitle)}>
+                className={`Showcase-button-${IS_MOBILE_DEVICE ? 'mb' : 'dt'}`}
+                onClick={openTrailer(movieTitle)}
+              >
                 Trailer
               </button>
               <button
-                className="Showcase-button"
+                className={`Showcase-button-${IS_MOBILE_DEVICE ? 'mb' : 'dt'}`}
                 onClick={_myListHandler({...showCaseMovie, myListAddHandler, myListRemoveHandler})}
               >
                 {`${isInMyList ? '-' : '+'} My List`}
