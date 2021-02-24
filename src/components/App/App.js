@@ -1,12 +1,11 @@
-import { Suspense, lazy, useState} from 'react';
+import { useState} from 'react';
 
 import ShowCase from "../Showcase/Showcase";
+import RowManager from "../RowManager/RowManager";
+import Footer from "../Footer/Footer";
 import {CATEGORIES} from "../../common/Categories";
 
 import './App.css';
-
-const RowManager = lazy(() => import('../RowManager/RowManager'));
-const Footer = lazy(() => import('../Footer/Footer'));
 
 function App() {
   const [myList, setMyList] = useState([]);
@@ -39,22 +38,17 @@ function App() {
   return (
     <div id="App">
       <ShowCase
-        title={CATEGORIES.MOVIES.UPCOMING.TITLE}
         slug={CATEGORIES.MOVIES.UPCOMING.SLUG}
         myList={myList}
         myListAddHandler={addToMyList}
         myListRemoveHandler={removeFromMyList}
       />
-      <Suspense fallback={null}>
-        <RowManager
-          myList={myList}
-          myListAddHandler={addToMyList}
-          myListRemoveHandler={removeFromMyList}
-        />
-      </Suspense>
-      <Suspense fallback={null}>
-        <Footer/>
-      </Suspense>
+      <RowManager
+        myList={myList}
+        myListAddHandler={addToMyList}
+        myListRemoveHandler={removeFromMyList}
+      />
+      <Footer />
     </div>
   )
 }

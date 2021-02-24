@@ -43,3 +43,15 @@ export function _getIsIdInList(list, id) {
  * @type {boolean}
  */
 export const IS_MOBILE_DEVICE = (/Mobi|Android/i.test(navigator.userAgent));
+
+/**
+ * Determines if a timestamp should be considered stale
+ *
+ * @param timestamp The timestamp being evaluated
+ * @param maxAgeInDays The max age (in days) to be considered fresh, defaults to 1 day
+ * @returns {boolean}
+ */
+export function _isStale(timestamp, maxAgeInDays = 1) {
+  const MS_IN_A_DAY = 1000 / 60 / 60 / 24;
+  return ((Date.now() - timestamp) / MS_IN_A_DAY) >= maxAgeInDays;
+}
