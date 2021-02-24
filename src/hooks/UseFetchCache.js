@@ -19,7 +19,7 @@ export const useFetchCache = (slug, cacheDurationInDays = 1) => {
   const CACHE = useRef(JSON.parse(window.localStorage.getItem(slug)) || {});
 
   const cacheData = (slug, data) => {
-    CACHE.current[slug] = { timestamp: Date.now(), data };
+    CACHE.current[slug] = { timestamp: Date.now(), items: [...data] };
 
     try {
       window.localStorage.setItem(slug, JSON.stringify(CACHE.current));
@@ -48,11 +48,11 @@ export const useFetchCache = (slug, cacheDurationInDays = 1) => {
 
   useEffect(() => {
     if (!slug) {
-      return state;
+      return;
     }
 
     let tries = 1;
-    let shouldCancel = false;
+    let shouldCancel = false; // Flag to prevent operating on component if it has been unmounted before fetch resolves
 
     (async function doFetch() {
       // We want to ensure we don't get the "loading flicker" effect in our average case
@@ -61,18 +61,17 @@ export const useFetchCache = (slug, cacheDurationInDays = 1) => {
       const LOADING_INDICATOR_DELAY = 1_000;
       const timeoutId = setTimeout(() => dispatch({ type: FETCH_STATUS.LOADING }), LOADING_INDICATOR_DELAY);
 
-      // Consider anything < 1 day as "fresh" and do not hit the API
+      // Prioritize using the cache if we can
       if (CACHE.current[slug] && !_isStale(CACHE.current[slug].timestamp, cacheDurationInDays)) {
         clearTimeout(timeoutId);
-        const data = CACHE.current[slug].data;
-        dispatch({ type: FETCH_STATUS.SUCCESS, payload: data });
+        dispatch({ type: FETCH_STATUS.SUCCESS, payload: CACHE.current[slug].items });
       } else {
         try {
           const response = await fetch(`https://api.themoviedb.org/3/${slug}?api_key=${API_KEY}`);
-          clearTimeout(timeoutId);
           if (!response.ok) {
             throw new Error(`Server responded with code ${response.status} at ${new Date()}`)
           }
+          clearTimeout(timeoutId);
           const dataWrapper = await response.json();
           const data = dataWrapper.results;
 
@@ -81,11 +80,9 @@ export const useFetchCache = (slug, cacheDurationInDays = 1) => {
           }
 
           tries = 1;
-          cacheData(slug, { timestamp: Date.now(), data })
+          cacheData(slug, data)
           dispatch({ type: FETCH_STATUS.SUCCESS, payload: data });
         } catch (error) {
-          clearTimeout(timeoutId);
-
           if (shouldCancel) {
             return;
           }
@@ -108,7 +105,7 @@ export const useFetchCache = (slug, cacheDurationInDays = 1) => {
     return () => {
       shouldCancel = true;
     };
-  }, [slug]);
+  }, [slug, cacheDurationInDays]);
 
   return state;
 };

@@ -65,7 +65,7 @@ function CardRow({containerId, title, slug = null, myList: myListItems, myListAd
       )
     }
     return _cards;
-  }, [myListItems, rowItems, myListAddHandler, myListRemoveHandler]);
+  }, [containerId, myListItems, rowItems, myListAddHandler, myListRemoveHandler]);
 
   return (
     <section>

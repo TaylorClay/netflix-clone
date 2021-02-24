@@ -52,6 +52,6 @@ export const IS_MOBILE_DEVICE = (/Mobi|Android/i.test(navigator.userAgent));
  * @returns {boolean}
  */
 export function _isStale(timestamp, maxAgeInDays = 1) {
-  const MS_IN_A_DAY = 1000 / 60 / 60 / 24;
+  const MS_IN_A_DAY = 1000 * 60 * 60 * 24;
   return ((Date.now() - timestamp) / MS_IN_A_DAY) >= maxAgeInDays;
 }
