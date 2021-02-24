@@ -3,15 +3,17 @@ import {useEffect, useMemo, useState} from 'react';
 import Card from "../Card/Card";
 import IconPlus from "../../icons/IconPlus";
 import IconSubtract from "../../icons/IconSubtract";
-import {API_KEY} from "../../common/Secrets";
+import {FETCH_STATUS} from "../../common/StateConstants";
+import {useFetchCache} from "../../hooks/UseFetchCache";
 import {_getIsIdInList} from "../../common/Utilities";
 
 import './CardRow.css';
 
-function CardRow({containerId, title, slug = null, myList, myListAddHandler, myListRemoveHandler}) {
+function CardRow({containerId, title, slug = null, myList: myListItems, myListAddHandler, myListRemoveHandler}) {
   const [isFirstVisible, setFirstVisible] = useState(false);
   const [isLastVisible, setLastVisible] = useState(false);
-  const [mediaItems, setMediaItems] = useState([]);
+
+  const { status: fetchStatus, data: rowItems } = useFetchCache(slug);
 
   // Handles adding a fade effect on the left and right side of a row
   useEffect(() => {
@@ -35,35 +37,17 @@ function CardRow({containerId, title, slug = null, myList, myListAddHandler, myL
     if (listEl?.lastElementChild) observer.observe(listEl.lastElementChild);
 
     return () => observer.disconnect();
-  }, [containerId, mediaItems.length]);
-
-  // Fetches a list of media to be used in the Row
-  useEffect(() => {
-    // The only CardRow without a slug should by MyList
-    // We won't need to re-fetch data for MyList unless we want to support persisting data between sessions
-    if (slug) {
-      (async () => {
-        try {
-          const res = await fetch(`https://api.themoviedb.org/3/${slug}?api_key=${API_KEY}`);
-          const data = await res.json();
-          setMediaItems(data.results);
-        } catch (e) {
-          console.error(`Error fetching the ${title} Row\n`, e);
-        }
-      })();
-    }
-  }, [slug, title]);
-
-  const isMyList = containerId === 'my-list';
+  }, [containerId, rowItems]);
 
   // Creates and memoizes the list of Cards to be shown in the Row
   const cards = useMemo(() => {
+    const isMyList = containerId === 'my-list';
     const _cards = [];
-    const data = isMyList ? myList : mediaItems;
-    for (let i = 0; i < data.length; i++) {
-      const {id, title, name, overview, poster_path, posterPath} = data[i];
+    const items = isMyList ? myListItems : rowItems;
+    for (let i = 0; i < items.length; i++) {
+      const {id, title, name, overview, poster_path, posterPath} = items[i];
 
-      const isInMyList = _getIsIdInList(myList, id);
+      const isInMyList = _getIsIdInList(myListItems, id);
 
       // The Movie datamodel uses title, and the TV datamodel uses name
       const titleDisplay = title || name;
@@ -81,13 +65,13 @@ function CardRow({containerId, title, slug = null, myList, myListAddHandler, myL
       )
     }
     return _cards;
-  }, [isMyList, myList, mediaItems, myListAddHandler, myListRemoveHandler]);
+  }, [containerId, myListItems, rowItems, myListAddHandler, myListRemoveHandler]);
 
   return (
     <section>
-      <h2 className="Card-row-title">
-        {title}
-      </h2>
+      <h1 className="Card-row-title">
+        {fetchStatus === FETCH_STATUS.LOADING ? 'Loading...' : title}
+      </h1>
       <ul className="Card-row" id={containerId}>
         {cards}
       </ul>

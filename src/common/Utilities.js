@@ -2,9 +2,9 @@
  * Trims a String to a given number of characters, and then appends an ellipsis.
  * If the String is less than the max number of characters, the original String is returned.
  * 
- * @param textToTrim - The String to be trimmed (if necessary)
- * @param maxLength - The maximum allowed characters before being trimmed
- * @returns {string} - The trimmed String
+ * @param textToTrim The String to be trimmed (if necessary)
+ * @param maxLength The maximum allowed characters before being trimmed
+ * @returns {string} The trimmed String
  */
 export function _trimTextLength(textToTrim, maxLength = 50) {
   if (!textToTrim) return textToTrim;
@@ -15,9 +15,9 @@ export function _trimTextLength(textToTrim, maxLength = 50) {
  * Trims a String to a given number of words, and then appends an ellipsis.
  * If the String is less than the max number of words, the original String is returned.
  * 
- * @param textToTrim - The String to be trimmed (if necessary)
- * @param maxWordCount - The maximum allowed words before being trimmed
- * @returns {string} - The trimmed String
+ * @param textToTrim The String to be trimmed (if necessary)
+ * @param maxWordCount The maximum allowed words before being trimmed
+ * @returns {string} The trimmed String
  */
 export function _trimWordLength(textToTrim, maxWordCount = 100) {
   if (!textToTrim) return textToTrim;
@@ -27,11 +27,11 @@ export function _trimWordLength(textToTrim, maxWordCount = 100) {
 }
 
 /**
- * Determines if a list contains a target Id.
+ * Determines if a list contains a target Id
  * 
- * @param list - The list to search
- * @param id - The id to search for
- * @returns {boolean} - Whether or not the Id exists in the list
+ * @param list The list to search
+ * @param id The id to search for
+ * @returns {boolean} Whether or not the Id exists in the list
  */
 export function _getIsIdInList(list, id) {
   return list.findIndex(listItem => listItem.id === id) >= 0;
@@ -43,3 +43,15 @@ export function _getIsIdInList(list, id) {
  * @type {boolean}
  */
 export const IS_MOBILE_DEVICE = (/Mobi|Android/i.test(navigator.userAgent));
+
+/**
+ * Determines if a timestamp should be considered stale
+ *
+ * @param timestamp The timestamp being evaluated
+ * @param maxAgeInDays The max age (in days) to be considered fresh, defaults to 1 day
+ * @returns {boolean}
+ */
+export function _isStale(timestamp, maxAgeInDays = 1) {
+  const MS_IN_A_DAY = 1000 * 60 * 60 * 24;
+  return ((Date.now() - timestamp) / MS_IN_A_DAY) >= maxAgeInDays;
+}

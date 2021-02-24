@@ -11,10 +11,18 @@
     "react-scripts": "4.0.1",
     "web-vitals": "^0.2.4"
   },
+  "bundlesize": [
+    {
+      "path": "build/static/js/*.js",
+      "maxSize": "170 kB"
+    }
+  ],
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-bundle": "npm run build && npx bundlesize",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -32,5 +40,8 @@
     "development": [
       "last 1 chrome version"
     ]
+  },
+  "devDependencies": {
+    "source-map-explorer": "^2.5.2"
   }
 }

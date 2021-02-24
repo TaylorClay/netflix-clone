@@ -1,51 +1,46 @@
 import {useEffect, useState} from 'react';
 
-import {API_KEY} from "../../common/Secrets";
 import {IS_MOBILE_DEVICE, _getIsIdInList, _trimWordLength} from "../../common/Utilities";
+import {FETCH_STATUS} from "../../common/StateConstants";
+import {useFetchCache} from "../../hooks/UseFetchCache";
 
 import './Showcase.css';
 
-function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }) {
+function ShowCase({ slug, myList, myListAddHandler, myListRemoveHandler }) {
   const [showCaseMovie, setShowCaseMovie] = useState({});
   const [imageLoaded, setImageLoaded] = useState(true);
 
-  // Fetches a list of movies to be used in the Showcase
+  const { status: fetchStatus, data: showcaseItems } = useFetchCache(slug);
+
   useEffect(() => {
     let timeoutId;
-    (async () => {
-      try {
-        const res = await fetch(`https://api.themoviedb.org/3/${slug}?api_key=${API_KEY}`);
-        const data = await res.json();
 
-        // Keep a list of viable movies to choose from, so we can rotate through them
-        const movies = [];
-        data.results.forEach(movie => {
-          if (movie.backdrop_path) { // Only care about movies with a background image
-            movies.push(movie);
-          }
-        })
+    if (fetchStatus === FETCH_STATUS.SUCCESS && showcaseItems?.length > 0) {
+      // Keep a list of viable movies to choose from, so we can rotate through them
+      const movies = [];
+      showcaseItems.forEach(movie => {
+        if (movie.backdrop_path) { // Only care about movies with a background image
+          movies.push(movie);
+        }
+      })
 
-        // Rotate at random to keep the showcase interesting
-        if (movies.length> 0) {
+      // Rotate at random to keep the showcase interesting
+      if (movies.length > 0) {
+        const randIndex = Math.floor(Math.random() * Math.floor(movies.length))
+        setShowCaseMovie(movies[randIndex]);
+
+        const DISPLAY_DURATION = 30_000;
+        const changeShowcase = () => {
           const randIndex = Math.floor(Math.random() * Math.floor(movies.length))
           setShowCaseMovie(movies[randIndex]);
-
-
-          const TIMEOUT = 30_000;
-          const changeShowcase = () => {
-            const randIndex = Math.floor(Math.random() * Math.floor(movies.length))
-            setShowCaseMovie(movies[randIndex]);
-            timeoutId = setTimeout(changeShowcase, TIMEOUT);
-          }
-          timeoutId = setTimeout(changeShowcase, TIMEOUT);
+          timeoutId = setTimeout(changeShowcase, DISPLAY_DURATION);
         }
-      } catch (e) {
-        console.error(`Error fetching ${title} for the Showcase\n`, e);
+        timeoutId = setTimeout(changeShowcase, DISPLAY_DURATION);
       }
-    })();
+    }
 
     return () => clearTimeout(timeoutId);
-  }, [slug, title]);
+  }, [fetchStatus, showcaseItems]);
 
   // Opens YouTube with a query to find the target movie's trailer
   const openTrailer = (movieTitle) => {
@@ -62,9 +57,9 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
 
   return (
     <header id="Showcase-wrapper">
-      {showCaseMovie.id && (
-        <div id="Showcase-content-wrapper">
-          {imageLoaded && <img
+      <div id="Showcase-content-wrapper">
+        {showCaseMovie.id && imageLoaded && (
+          <img
             id="Showcase-backdrop-image"
             loading="eager"
             src={`https://image.tmdb.org/t/p/original/${backdrop_path}`}
@@ -73,31 +68,40 @@ function ShowCase({ title, slug, myList, myListAddHandler, myListRemoveHandler }
             height="100%"
             onLoad={onLoadHandler}
             onError={onErrorHandler}
-          />}
-          <div id="Showcase-overlay">
-            <h1 title={movieTitle}>
-              {movieTitle}
+          />
+        )}
+        <div id="Showcase-overlay">
+          {showCaseMovie.id && (
+            <>
+              <h1 title={movieTitle}>
+                {movieTitle}
+              </h1>
+              <p title={overview}>
+                {_trimWordLength(overview, document.body.clientWidth / 15)}
+              </p>
+              <div id="Showcase-button-group">
+                <button
+                  className={`Showcase-button-${IS_MOBILE_DEVICE ? 'mb' : 'dt'}`}
+                  onClick={openTrailer(movieTitle)}
+                >
+                  Trailer
+                </button>
+                <button
+                  className={`Showcase-button-${IS_MOBILE_DEVICE ? 'mb' : 'dt'}`}
+                  onClick={_myListHandler({...showCaseMovie, myListAddHandler, myListRemoveHandler})}
+                >
+                  {`${isInMyList ? '-' : '+'} My List`}
+                </button>
+              </div>
+            </>
+          )}
+          {fetchStatus === FETCH_STATUS.LOADING && (
+            <h1>
+              Loading...
             </h1>
-            <p title={overview}>
-              {_trimWordLength(overview, document.body.clientWidth / 15)}
-            </p>
-            <div id="Showcase-button-group">
-              <button
-                className={`Showcase-button-${IS_MOBILE_DEVICE ? 'mb' : 'dt'}`}
-                onClick={openTrailer(movieTitle)}
-              >
-                Trailer
-              </button>
-              <button
-                className={`Showcase-button-${IS_MOBILE_DEVICE ? 'mb' : 'dt'}`}
-                onClick={_myListHandler({...showCaseMovie, myListAddHandler, myListRemoveHandler})}
-              >
-                {`${isInMyList ? '-' : '+'} My List`}
-              </button>
-            </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </header>
   );
 }
